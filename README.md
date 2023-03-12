@@ -7,6 +7,8 @@
 
 Concevoir une application REST pour la gestion d'article de blog en PHP
 
-__à venir info sur les moyens d'authentification__
-
+* Pour cela, on a 3 moyens pour accéder à l'app
+    * Etre un visiteurs sans être authentifié
+    * Soit une authentification avec un rôle de mederator ...
+    * Soit une authentification avec le rôle de publisher pour pouvoir publier ces articles
 
