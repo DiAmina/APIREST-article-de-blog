@@ -1,8 +1,8 @@
 <?php
 require_once 'modules/connectDB.php';
-require_once 'modules/sql_requests.php';
+require_once 'modules/ensemblerequete.php';
 require_once 'modules/jwt-utils.php';
-$request = new Request();
+$request = new EnsembleRequete();
 
 // Identification du type de méthode HTTP envoyée par le client
 $http_method = $_SERVER['REQUEST_METHOD'];
