@@ -35,5 +35,3 @@ Concevoir une application REST pour la gestion d'article de blog en PHP
 * Tant qu'on est visiteur on peut:
     * Voir le nom, date, contenu d'un article
     * Aller chao ;) !
-
-* test1.2
