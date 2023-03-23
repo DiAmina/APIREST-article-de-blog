@@ -1,9 +1,15 @@
 <?php
 
-class Role {
+require_once 'ServerAuth/Role.php';
+require_once 'lib/ConnBD.php';
+
+class Users {
     private $username;
     private $password;
     private $role;
+    private $pdo;
+
+
 
     public function __construct($username, $password,$role) {
         $this->username = $username;
@@ -11,12 +17,22 @@ class Role {
         $this->role = $role;
     }
 
+    //getters
+    public function getUsername():string {
+        return $this->username;
+    }
+
+    public function getPassword():string {
+        return $this->password;
+    }
+
     public function liste():array {
-        return array(
-            'username' => $this->username,
-            'password' => $this->password,
-            'role' => $this->role
-        );
+        $sql = "SELECT * FROM userc WERE username = :username AND password = :password";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(array(':username' => $this->username,':password' => $this->password));
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $data;
+
     }
 
     //test si l'utilisateur est un moderateur

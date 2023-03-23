@@ -1,5 +1,7 @@
 <?php
-require_once 'modules/jwt-utils.php';
+require_once 'lib/jwt-utils.php';
+require_once 'ServerAuth/Role.php';
+require_once 'lib/EnsembleRequete.php';
 
 // Paramétrage de l'entête HTTP (pour la réponse au Client)
 header("Content-Type:application/json");
@@ -43,6 +45,7 @@ function deliverResponse($status, $statusMessage,$data): void{
 }
 
 function isValidUser($username,$password,$role): bool{
+    $sql = "SELECT * FROM article WHERE id = :id";
     $users = array(
         'username' => 'amina',
         'password' => '$iutinfo',
@@ -79,7 +82,7 @@ function isValidUser($username,$password,$role): bool{
         } else{
 
             //doit renvoyer un utilisateur anonyme
-            
+
 
             }
         break;
