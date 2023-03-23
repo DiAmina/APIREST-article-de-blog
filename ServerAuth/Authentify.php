@@ -18,7 +18,7 @@ if ($http_method == 'POST'){
 
         $payload = array(
             'username' => $username,
-            'exp' => (time() + 400),
+            'exp' => (time() + 600),
             'role' => $data['role']
         );
         $jwt = generate_jwt($headers, $payload);
