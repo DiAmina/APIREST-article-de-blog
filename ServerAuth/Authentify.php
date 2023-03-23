@@ -45,12 +45,13 @@ function deliverResponse($status, $statusMessage,$data): void{
 }
 
 function isValidUser($username,$password,$role): bool{
-    $sql = "SELECT * FROM article WHERE id = :id";
-    $users = array(
-        'username' => 'amina',
-        'password' => '$iutinfo',
-        'role' => 'publisher'
-    );
+    $sql = "SELECT * FROM userc WERE username = :username AND password = :password";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute(array(':username' => $this->username,':password' => $this->password));
+    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+    return true;
+
+
     if ($username == $users['username'] && $password == $users['password'] && $role == $users['role']){
         return true;
     }
