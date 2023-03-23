@@ -5,20 +5,27 @@ class EnsembleRequete {
     private $pdo;
 
     public function con($host, $username,$database, $password) {
-        $this->pdo = new PDO("mysql:host=localhost;dbname=api;charset=UTF8",'root','');
+        $this->pdo = new PDO("mysql:host=localhost;dbname=gestionarticle_rest;charset=UTF8",'root','');
     }
 
     public function get($id) {
-        $sql = "SELECT * FROM chuckn_facts WHERE id = :id";
+        $sql = "SELECT * FROM article WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(array(':id' => $id));
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         return $data;
     }
+    public function getAll() {
+        $sql = "SELECT * FROM article ORDER BY id DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(array());
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $data;
+    }
 
     public function post($data) { 
-        $stmt = $this->pdo->prepare("INSERT INTO chuckn_facts (phrase) VALUES (:phrase)");
-        if($stmt->execute(array(':phrase' => $data['phrase']))) {
+        $stmt = $this->pdo->prepare("INSERT INTO article (contenu) VALUES (:contenu)");
+        if($stmt->execute(array(':contenu' => $data['contenu']))) {
             return $this->pdo->lastInsertId();
         }else{
             return false;
@@ -26,9 +33,9 @@ class EnsembleRequete {
     }
 
     public function put($id,$phrase) {
-        $sql = "UPDATE chuckn_facts SET phrase =:phrase WHERE id=:id";
+        $sql = "UPDATE article SET contenu =:contenu WHERE id=:id";
         $stmt = $this->pdo->prepare($sql);
-        if ($stmt->execute(array(':id' =>$id,':phrase' => $phrase))){
+        if ($stmt->execute(array(':id' =>$id,':contenu' => $phrase))){
             return $this->pdo->lastInsertId();
         }else{
             return false;
@@ -36,7 +43,7 @@ class EnsembleRequete {
     }
 
     public function delete($id) {
-        $sql = "DELETE FROM chuckn_facts WHERE id=$id";
+        $sql = "DELETE FROM article WHERE id=$id";
         $stmt = $this->pdo->prepare($sql);
         if ($stmt) {
             return $stmt->execute(array());
