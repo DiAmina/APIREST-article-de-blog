@@ -1,4 +1,7 @@
 <?php
+
+use ServerApp\EnsembleRequete;
+
 require_once 'modules/connectDB.php';
 require_once 'modules/ensemblerequete.php';
 require_once 'modules/jwt-utils.php';
