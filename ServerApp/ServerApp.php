@@ -15,10 +15,10 @@ switch ($http_method){
             $matchingData = null;
             if (!empty($_GET['id'])){
                 // Traitement 1 : AVEC ID
-                $matchingData = $request->getElement($linkpdo, $_GET['id']);
+                $matchingData = $request->get($pdo, $_GET['id']);
             } else{
                 // Traitement 2 : SANS ID
-                $matchingData = $request->getAllElements($linkpdo);
+                $matchingData = $request->getAll($pdo);
             }
             // Envoi de la réponse au Client
             deliverResponse(200, "Données récupérés avec succès", $matchingData);
@@ -44,7 +44,7 @@ switch ($http_method){
             // Traitement
             $data = json_decode($postedData, true);
             $data['datePub'] = date('Y-m-d H:i:s');
-            $res = $request->insertData($linkpdo, $data);
+            $res = $request->post($pdo, $data);
             // Envoi de la réponse au user 
             deliverResponse(201, "Votre message", $data);
         }else{
@@ -61,7 +61,7 @@ switch ($http_method){
             $data = json_decode($postedData, true);
             $data['date_modif'] = date('Y-m-d H:i:s');
             $data['id'] = $_GET['id'];
-            $res = $request->updateElement($linkpdo, $data);
+            $res = $request->update($linkpdo, $data);
             // Envoi de la réponse au Client
             deliverResponse(200, "Mise  jour OK !", $data);
         }
