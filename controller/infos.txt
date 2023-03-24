@@ -1,0 +1,19 @@
+Moderators :
+    > Amina
+    > pwd ('iutinfo') : b38bb9429239744b50dfc9ef13d1a96b1985eb2b1afc9d056d3650b97c015cb7
+
+    > prof
+    > pwd ('$iutinfo') : e060c37cc92927255ff5e06a4051a88b08d27a3c4d1de8192c4c7cf78884ec94
+
+    > clement
+    > pwd ('iutclement') : 4c2d1ccd957c4b2d4d38a636583e9ab1fa37f0866e4046c1145098aead453b2e
+
+Publisher :
+    > Crococarl
+    > pwd ('hihihiha') : 56e3e215e033280fc80ca86da0e428cfc71828181968d17b6698643e97c59c6e
+
+    > Vinki
+    > pwd ('vinki000') : b7dafc7fae7c046b63266a0e76e69022664b9cbea408527319aa9ee7b26a315f
+
+    > Viallet
+    > pwd ('viallet456') : 39497ad59a90a0bb39d239a25f47a090d019d9acde8633c35fe20cd69db0bdc9

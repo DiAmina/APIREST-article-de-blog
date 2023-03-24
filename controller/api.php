@@ -1,5 +1,6 @@
 <?php
 
+
 use ServerApp\EnsembleRequete;
 
 require_once 'modules/connectDB.php';
@@ -9,55 +10,55 @@ $request = new EnsembleRequete();
 
 // Identification du type de méthode HTTP envoyée par le client
 $http_method = $_SERVER['REQUEST_METHOD'];
-switch ($http_method){
+switch ($http_method) {
     // Cas de la méthode GET
     case "GET":
         $bearer_token = get_bearer_token();
-        if (is_jwt_valid($bearer_token)){
+        if (is_jwt_valid($bearer_token)) {
             // Récupération des critères de recherche envoyés par le Client
             $matchingData = null;
-            if (!empty($_GET['id'])){
+            if (!empty($_GET['id'])) {
                 // Traitement 1 : AVEC ID
                 $matchingData = $request->get($pdo, $_GET['id']);
-            } else{
+            } else {
                 // Traitement 2 : SANS ID
                 $matchingData = $request->getAll($pdo);
             }
             // Envoi de la réponse au Client
             deliverResponse(200, "Données récupérés avec succès", $matchingData);
-        } else{
+        } else {
             deliverResponse(401, "Vous n'êtes pas autorisé à accéder à cette ressource", null);
         }
         break;
     // Cas de la méthode POST
     case "POST":
-            /*  si le rôle est publisher then
-                    post, get
-                fin if;
-                if le nom de l'auteur == a nom du publisher connecter the 
-                    delete, post, put
-                fin if;
-            */
+        /*  si le rôle est publisher then
+                post, get
+            fin if;
+            if le nom de l'auteur == a nom du publisher connecter the
+                delete, post, put
+            fin if;
+        */
         $bearer_token = get_bearer_token();
-        if (is_jwt_valid($bearer_token)){
+        if (is_jwt_valid($bearer_token)) {
             //if ($data['role']!='publisher'){
-               
+
             // Récupération des données envoyées par le user
             $postedData = file_get_contents('php://input');
             // Traitement
             $data = json_decode($postedData, true);
             $data['datePub'] = date('Y-m-d H:i:s');
             $res = $request->post($pdo, $data);
-            // Envoi de la réponse au user 
+            // Envoi de la réponse au user
             deliverResponse(201, "Votre message", $data);
-        }else{
-            deliverResponse(401, "Vous n'êtes pas autorisé à accéder à cette ressource", null);     
-    
+        } else {
+            deliverResponse(401, "Vous n'êtes pas autorisé à accéder à cette ressource", null);
+
         }
         break;
     // Cas de la méthode PUT
     case "PUT" :
-        if (!empty($_GET['id'])){
+        if (!empty($_GET['id'])) {
             // Récupération des données envoyées par le Client
             $postedData = file_get_contents('php://input');
             // Traitement
@@ -69,50 +70,50 @@ switch ($http_method){
             deliverResponse(200, "Mise  jour OK !", $data);
         }
         break;
-        // Cas de la méthode DELETE
+    // Cas de la méthode DELETE
     case 'DELETE':
         // Récupération de l'identifiant de la ressource envoyé par le Client
-        if (!empty($_GET['id'])){
+        if (!empty($_GET['id'])) {
             // Traitement
             $res = $request->deleteElement($linkpdo, $_GET['id']);
             // Envoi de la réponse au Client
             deliverResponse(200, "Votre message", "SUCCES");
-        } else{
+        } else {
             deliverResponse(405, "Votre message", "ERROR");
         }
         break;
     default:
         // Récupération de l'identifiant de la ressource envoyé par le Client
-        if (!empty($_GET['id'])){
+        if (!empty($_GET['id'])) {
             // Traitement
         }
         // Envoi de la réponse au Client
         deliverResponse(200, "Votre message", null);
         break;
 }
-    // Envoi de la réponse au Client
-    function deliverResponse($status, $statusMessage,$data): void{
-        // Paramétrage de l'entête HTTP, suite
-        header("HTTP/1.1 $status $statusMessage");
+// Envoi de la réponse au Client
+function deliverResponse($status, $statusMessage, $data): void
+{
+    // Paramétrage de l'entête HTTP, suite
+    header("HTTP/1.1 $status $statusMessage");
 
-        // Paramétrage de la réponse retournée
-        $response['status'] = $status;
-        $response['status_message'] = $statusMessage;
-        $response['data'] = $data;
+    // Paramétrage de la réponse retournée
+    $response['status'] = $status;
+    $response['status_message'] = $statusMessage;
+    $response['data'] = $data;
 
-        // Mapping de la réponse au format JSON
-        $jsonResponse = json_encode($response);
-        echo $jsonResponse;
-    }
+    // Mapping de la réponse au format JSON
+    $jsonResponse = json_encode($response);
+    echo $jsonResponse;
+}
 
 
-/* algo 
+/* algo
 si le rôle est publisher then
     post, get
     fin if;
-    if le nom de l'auteur == a nom du publisher connecter the 
+    if le nom de l'auteur == a nom du publisher connecter the
         delete, post, put
     fin if;
 */
 
-?>

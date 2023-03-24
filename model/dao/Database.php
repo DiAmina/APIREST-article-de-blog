@@ -1,6 +1,8 @@
 <?php
 namespace model\dao;
 
+use PDO;
+
 /**
  * Class Singleton Database
  * @package model\dao
@@ -20,14 +22,12 @@ class Database
 
     /**
      * Retourne l'instance de la classe
-     * @param $login
-     * @param $password
      * @return Database|null
      */
-    public static function getInstance($login, $password): ?Database
+    public static function getInstance(): ?Database
     {
         if (!self::$instance) {
-            self::$instance = new Database($login, $password);
+            self::$instance = new Database();
         }
         return self::$instance;
     }
@@ -40,4 +40,5 @@ class Database
     {
         return $this->connection;
     }
+
 }

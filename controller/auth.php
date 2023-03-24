@@ -58,36 +58,36 @@ function isValidUser($username,$password,$role): bool{
     return false;
 
 
-/*if ($role == $users['publisher']){
-        $permissions = array(
-            'publisher' => array('getAllElements', 'insertData', 'deleteElement','updateElement'),
-            //'users' => array('read')
-            );
-            }
-        }*/
-    }
-        //faire un try catch ou sinon un switch case pour tester si le libellé du role existe dans le tableau
-        //si oui, donner les droits correspondants
-        //sinon, on retourne un message d'erreur
-    
-     $http_method = $_SERVER['REQUEST_METHOD'];
-    switch ($http_method){
-        $bearer_token = get_bearer_token();
-        //Decode le token de l'utilisateur
-        $matchingData = decode_jwt($bearer_token);
-        if (is_jwt_valid($bearer_token)){
-            // si le rôle est moderateur
-            
-            // Envoi de la réponse au Client
-            deliverResponse(200, "Vous êtes connecté en tant que ", $matchingData);
-        } else{
+    /*if ($role == $users['publisher']){
+            $permissions = array(
+                'publisher' => array('getAllElements', 'insertData', 'deleteElement','updateElement'),
+                //'users' => array('read')
+                );
+                }
+            }*/
+}
+//faire un try catch ou sinon un switch case pour tester si le libellé du role existe dans le tableau
+//si oui, donner les droits correspondants
+//sinon, on retourne un message d'erreur
 
-            //doit renvoyer un utilisateur anonyme
+$http_method = $_SERVER['REQUEST_METHOD'];
+switch ($http_method){
+$bearer_token = get_bearer_token();
+    //Decode le token de l'utilisateur
+$matchingData = decode_jwt($bearer_token);
+if (is_jwt_valid($bearer_token)){
+    // si le rôle est moderateur
+
+    // Envoi de la réponse au Client
+deliverResponse(200, "Vous êtes connecté en tant que ", $matchingData);
+} else{
+
+    //doit renvoyer un utilisateur anonyme
 
 
-            }
-        break;
-        }
+}
+break;
+}
 
 
 

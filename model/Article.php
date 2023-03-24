@@ -1,13 +1,19 @@
 <?php
 
-class article{
+namespace model\dao;
+
+require_once (__DIR__ . "/../User.php");
+use model\User;
+
+class Article
+{
     private  $id;
     private $auteur;
     private $datePub;
     private $contenu;
     private $login;
 
-    public function __construc($id, $auteur, $datePub, $contenu, $login){
+    public function __construct($id, $auteur, $datePub, $contenu, $login){
         $this->id = $id;
         $this->auteur = $auteur;
         $this->datePub = $datePub;
@@ -42,4 +48,14 @@ class article{
         $this->contenu = $contenu;
     }
 
+    /**
+     * Vérifie si l'utilisateur est l'auteur de l'article
+     * @param User $auteur
+     * @param Article $article
+     * @return bool
+     */
+    public static function isAuteur(User $auteur, Article $article): bool
+    {
+        return $auteur->getLogin() == $article->getLogin();
+    }
 }

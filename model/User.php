@@ -1,54 +1,50 @@
 <?php
 namespace model;
 
-class Users
+class User
 {
-    private $username;
+    private $login;
     private $password;
     private $role;
 
-
-    public function __construct($username, $password, $role)
+    public function __construct($login, $password, $role)
     {
-        $this->username = $username;
+
+
+        $this->login = $login;
         $this->password = $password;
         $this->role = $role;
     }
 
-    //getters
-    public function getUsername(): string
+    public function getLogin()
     {
-        return $this->username;
+        return $this->login;
     }
 
-    public function getPassword(): string
+    public function getPassword()
     {
         return $this->password;
     }
 
-    public function getRole(): string
+    public function getRole()
     {
         return $this->role;
     }
 
-    //test si l'utilisateur est un moderateur
-    public function isModerator(): bool
+    public function str(): string
     {
-        return $this->role === 'moderator';
+        return "login: " . $this->login . " password: " . $this->password . " role: " . $this->role;
     }
 
-    //test si l'utilisateur est un editeur
-    public function isPublisher(): bool
+    public function isModerator():bool{
+        return $this->role == "moderator";
+    }
+    public function isPublisher():bool{
+        return $this->role == "publisher";
+    }
+    public function isAnonymous():bool
     {
-        return $this->role === 'publisher';
+        return $this->role == "anonynous";
     }
-
-    /*test si l'utilisateur est un anonyme
-    public function isUser():bool {
-        return $this->role ==='anonyme';
-    }
-    */
 
 }
-
-?>
