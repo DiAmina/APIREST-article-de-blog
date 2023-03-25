@@ -53,6 +53,7 @@ function deliverResponse($status, $statusMessage,$data): void{
     echo $jsonResponse;
 }
 
+//Vérifie si l'utilisateur est valide
 function isValidUser($username,$password): bool{
     $requestUsers = new RequestUsers();
     $user = $requestUsers->getUser($username, $password);
