@@ -36,6 +36,11 @@ class User
         return "login: " . $this->login . " password: " . $this->password . " role: " . $this->role;
     }
 
+    public static function toUser(array $user): User
+    {
+        return new User($user["login"], $user["password"], $user["role"]);
+    }
+
     public function isModerator():bool{
         return $this->role == "moderator";
     }

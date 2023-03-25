@@ -1,9 +1,7 @@
 <?php
+namespace model;
 
-namespace model\dao;
-
-require_once (__DIR__ . "/../User.php");
-use model\User;
+require_once (__DIR__ . "/User.php");
 
 class Article
 {

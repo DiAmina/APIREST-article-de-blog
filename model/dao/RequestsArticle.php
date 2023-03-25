@@ -2,6 +2,8 @@
 
 namespace model\dao;
 
+require_once (__DIR__ . "/Database.php");
+use model\dao\Database;
 use PDO;
 
 class RequestsArticle

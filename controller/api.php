@@ -1,15 +1,21 @@
 <?php
 
+namespace controller;
 
-use ServerApp\EnsembleRequete;
+require_once (__DIR__ . "/../model/dao/RequestUsers.php");
+require_once (__DIR__ . "/../model/dao/RequestsArticle.php");
+require_once (__DIR__ . "/../model/User.php");
+require_once (__DIR__ . "/../model/Article.php");
+require_once (__DIR__ . "/../libs/jwt_utils.php");
+use model\dao\RequestUsers;
+use model\dao\RequestsArticle;
+use model\User;
+use model\Article;
 
-require_once 'modules/connectDB.php';
-require_once 'modules/ensemblerequete.php';
-require_once 'modules/jwt-utils.php';
-$request = new EnsembleRequete();
 
 // Identification du type de méthode HTTP envoyée par le client
 $http_method = $_SERVER['REQUEST_METHOD'];
+$requestArticle = new RequestsArticle();
 switch ($http_method) {
     // Cas de la méthode GET
     case "GET":
@@ -17,78 +23,22 @@ switch ($http_method) {
         if (is_jwt_valid($bearer_token)) {
             // Récupération des critères de recherche envoyés par le Client
             $matchingData = null;
-            if (!empty($_GET['id'])) {
-                // Traitement 1 : AVEC ID
-                $matchingData = $request->get($pdo, $_GET['id']);
-            } else {
-                // Traitement 2 : SANS ID
-                $matchingData = $request->getAll($pdo);
+            if (isset($_GET['id'])) {
+                $matchingData = $requestArticle->getArticleId($_GET['id']);
+                deliverResponse(200, "Article", $matchingData);
             }
-            // Envoi de la réponse au Client
-            deliverResponse(200, "Données récupérés avec succès", $matchingData);
         } else {
-            deliverResponse(401, "Vous n'êtes pas autorisé à accéder à cette ressource", null);
+            $matchingData = $requestArticle->getArticles();
+            deliverResponse(200, "Liste des articles", $matchingData);
         }
-        break;
-    // Cas de la méthode POST
     case "POST":
-        /*  si le rôle est publisher then
-                post, get
-            fin if;
-            if le nom de l'auteur == a nom du publisher connecter the
-                delete, post, put
-            fin if;
-        */
-        $bearer_token = get_bearer_token();
-        if (is_jwt_valid($bearer_token)) {
-            //if ($data['role']!='publisher'){
-
-            // Récupération des données envoyées par le user
-            $postedData = file_get_contents('php://input');
-            // Traitement
-            $data = json_decode($postedData, true);
-            $data['datePub'] = date('Y-m-d H:i:s');
-            $res = $request->post($pdo, $data);
-            // Envoi de la réponse au user
-            deliverResponse(201, "Votre message", $data);
-        } else {
-            deliverResponse(401, "Vous n'êtes pas autorisé à accéder à cette ressource", null);
-
-        }
         break;
-    // Cas de la méthode PUT
-    case "PUT" :
-        if (!empty($_GET['id'])) {
-            // Récupération des données envoyées par le Client
-            $postedData = file_get_contents('php://input');
-            // Traitement
-            $data = json_decode($postedData, true);
-            $data['date_modif'] = date('Y-m-d H:i:s');
-            $data['id'] = $_GET['id'];
-            $res = $request->update($linkpdo, $data);
-            // Envoi de la réponse au Client
-            deliverResponse(200, "Mise  jour OK !", $data);
-        }
+    case "PUT":
         break;
-    // Cas de la méthode DELETE
-    case 'DELETE':
-        // Récupération de l'identifiant de la ressource envoyé par le Client
-        if (!empty($_GET['id'])) {
-            // Traitement
-            $res = $request->deleteElement($linkpdo, $_GET['id']);
-            // Envoi de la réponse au Client
-            deliverResponse(200, "Votre message", "SUCCES");
-        } else {
-            deliverResponse(405, "Votre message", "ERROR");
-        }
+    case "DELETE":
         break;
     default:
-        // Récupération de l'identifiant de la ressource envoyé par le Client
-        if (!empty($_GET['id'])) {
-            // Traitement
-        }
-        // Envoi de la réponse au Client
-        deliverResponse(200, "Votre message", null);
+        deliverResponse(405, "Méthode non autorisée", null);
         break;
 }
 // Envoi de la réponse au Client
