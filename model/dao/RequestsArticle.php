@@ -39,13 +39,31 @@ class RequestsArticle
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 
-    function postArticle($auteur, $contenu, $date): bool
+    //le nombre de like
+    public function getLikes($id): array
+    {
+        $query = $this->pdo->prepare("SELECT COUNT(*) FROM likes WHERE id = :id");
+        $query->execute([
+            "id" => $id
+        ]);
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
+    //le nombre de dislike
+    public function getDislikes($id): array
+    {
+        $query = $this->pdo->prepare("SELECT COUNT(*) FROM dislikes WHERE id = :id");
+        $query->execute([
+            "id" => $id
+        ]);
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
+    function postArticle($auteur, $contenu, $datePub): bool
     {
         $query = $this->pdo->prepare("INSERT INTO article (auteur, contenu, datePub) VALUES (:auteur, :contenu, :date)");
         return $query->execute([
             "auteur" => $auteur,
             "contenu" => $contenu,
-            "date" => $date
+            "date" => $datePub
         ]);
     }
 
