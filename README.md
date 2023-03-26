@@ -1,4 +1,5 @@
-![image](https://user-images.githubusercontent.com/logo_api.png)
+<img  style="float: left; margin: 0 10px 0 0; " alt="" src="./ressources/logo_api.png">
+
 
 
 # APIREST-gestion-article-de-blog
