@@ -55,7 +55,7 @@ switch ($http_method) {
                 $contenu = $_POST['contenu'];
                 $datePub = date("Y-m-d H:i:s");
                 $requestArticle->postArticle($auteur, $contenu, $datePub);
-                deliverResponse(200, "Article mise à jour", null);
+                deliverResponse(200, "Article mis à jour", null);
             } else {
                 deliverResponse(401, "Vous n'avez pas le droit d'ajouter un article", null);
             }

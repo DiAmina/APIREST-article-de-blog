@@ -81,4 +81,18 @@ function get_bearer_token() {
     return null;
 }
 
+
+ //Récupère la charge utile (payload) d'un jeton JWT
+function get_jwt_payload(string $jwt): object {
+    // Séparation de l'en-tête, de la charge utile et de la signature du jeton JWT
+    $jwt_parts = explode(".", $jwt);
+    $jwt_payload_base64 = $jwt_parts[1];
+    // Décodage de la charge utile au format JSON
+    $jwt_payload_json = base64_decode($jwt_payload_base64);
+    // Transformation de la charge utile en objet PHP
+    $jwt_payload = json_decode($jwt_payload_json);
+    return $jwt_payload;
+}
+
+
 ?>
