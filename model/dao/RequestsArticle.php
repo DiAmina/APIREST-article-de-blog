@@ -67,6 +67,15 @@ class RequestsArticle
         ]);
     }
 
+    // Méthode pour mettre à jour partiellement un article
+    public function patchArticle($id, $contenu): bool {
+        $query = $this->pdo->prepare("UPDATE articles SET contenu = CONCAT_WS('', contenu, :contenu) WHERE id = :id");
+        return $query->execute([
+            "id" => $id,
+            "contenu" => $contenu
+        ]);
+    }
+
     function  putArticle($id, $contenu): bool
     {
         $query = $this->pdo->prepare("UPDATE article SET contenu = :contenu WHERE id = :id");

@@ -63,24 +63,53 @@ switch ($http_method) {
             deliverResponse(401, "Votre token a expiré", null);
         }
         break;
-    case "PUT":
-        $bearer_token = get_bearer_token();
-        if (is_jwt_valid($bearer_token)) {
-            $payload = get_jwt_payload($bearer_token);
-            $role = $payload->role;
-            if ($role == "publisher") {
-                $auteur = $payload->username;
-                $id = $_GET['id'];
-                $contenu = $_POST['contenu'];
-                $requestArticle->putArticle($id, $contenu);
-                deliverResponse(200, "Article modifié", null);
+
+        case "PATCH":
+            $bearer_token = get_bearer_token();
+            if (is_jwt_valid($bearer_token)) {
+                $payload = get_jwt_payload($bearer_token);
+                $role = $payload->role;
+                if ($role == "publisher") {
+                    $auteur = $payload->username;
+                    $id = $_GET['id'];
+                    $article = $requestArticle->getArticles($id);
+                    if ($article) {
+                        $contenu = $_POST['contenu'];
+                        if (!empty($contenu)) {
+                            $requestArticle->patchArticle($id, $contenu);
+                            deliverResponse(200, "Article modifié", null);
+                        } else {
+                            deliverResponse(400, "Le champ contenu est requis", null);
+                        }
+                    } else {
+                        deliverResponse(404, "L'article n'existe pas", null);
+                    }
+                } else {
+                    deliverResponse(401, "Vous n'avez pas le droit de modifier un article", null);
+                }
             } else {
-                deliverResponse(401, "Vous n'avez pas le droit de modifier un article", null);
+                deliverResponse(401, "Votre token a expiré", null);
             }
-        } else {
-            deliverResponse(401, "Votre token a expiré", null);
-        }
-    break;
+        break;
+        
+    // case "PUT":
+    //     $bearer_token = get_bearer_token();
+    //     if (is_jwt_valid($bearer_token)) {
+    //         $payload = get_jwt_payload($bearer_token);
+    //         $role = $payload->role;
+    //         if ($role == "publisher") {
+    //             $auteur = $payload->username;
+    //             $id = $_GET['id'];
+    //             $contenu = $_POST['contenu'];
+    //             $requestArticle->putArticle($id, $contenu);
+    //             deliverResponse(200, "Article modifié", null);
+    //         } else {
+    //             deliverResponse(401, "Vous n'avez pas le droit de modifier un article", null);
+    //         }
+    //     } else {
+    //         deliverResponse(401, "Votre token a expiré", null);
+    //     }
+    // break;
 
     case "DELETE":
         $bearer_token = get_bearer_token();
