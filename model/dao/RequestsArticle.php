@@ -10,11 +10,13 @@ class RequestsArticle
 {
     private $pdo;
 
+    //Connexion BD
     public function __construct()
     {
         $this->pdo = Database::getInstance()->getConnection();
     }
 
+    //Récupérer les articles
     public function getArticles(): array
     {
         $query = $this->pdo->prepare("SELECT * FROM article");
@@ -22,6 +24,7 @@ class RequestsArticle
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    //Récupérer les id des articles
     public function getArticleId($id): array
     {
         $query = $this->pdo->prepare("SELECT * FROM article WHERE id = :id");
@@ -30,6 +33,8 @@ class RequestsArticle
         ]);
         return $query->fetch(PDO::FETCH_ASSOC);
     }
+
+    //Récupérer les articles d'auteurs
     public function getArticleAuteur($auteur): array
     {
         $query = $this->pdo->prepare("SELECT * FROM article WHERE auteur = :auteur");
@@ -57,6 +62,7 @@ class RequestsArticle
         ]);
         return $query->fetch(PDO::FETCH_ASSOC);
     }
+    //Méthode pour créer un article
     function postArticle($auteur, $contenu, $datePub): bool
     {
         $query = $this->pdo->prepare("INSERT INTO article (auteur, contenu, datePub) VALUES (:auteur, :contenu, :date)");
@@ -86,6 +92,7 @@ class RequestsArticle
         ]);
     }
 
+    //SUpprimer un like
     function deleteLike($id): bool
     {
         $query = $this->pdo->prepare("DELETE FROM likes WHERE id = :id");
@@ -94,6 +101,7 @@ class RequestsArticle
         ]);
     }
 
+    //Supprimer un dislike
     function deletedislike($id): bool
     {
         $query = $this->pdo->prepare("DELETE FROM dislikes WHERE id = :id");
@@ -101,6 +109,8 @@ class RequestsArticle
             "id" => $id
         ]);
     }
+
+    //Supprimer un article
     function deleteArticle($id): bool
     {
         $query = $this->pdo->prepare("DELETE FROM article WHERE id = :id");
@@ -109,6 +119,7 @@ class RequestsArticle
         ]);
     }
 
+    //Publier un like
     function postLike($id, $auteur): bool
     {
         $query = $this->pdo->prepare("INSERT INTO likes (id, username) VALUES (:id, :auteur)");
@@ -117,6 +128,8 @@ class RequestsArticle
             "auteur" => $auteur
         ]);
     }
+
+    //Publier un dislike
     function postDislike($id, $auteur): bool
     {
         $query = $this->pdo->prepare("INSERT INTO dislikes (id, username) VALUES (:id, :auteur)");
