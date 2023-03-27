@@ -76,6 +76,7 @@ class RequestsArticle
         ]);
     }
 
+    // Méthode pour mettre à jour un article
     function  putArticle($id, $contenu): bool
     {
         $query = $this->pdo->prepare("UPDATE article SET contenu = :contenu WHERE id = :id");
