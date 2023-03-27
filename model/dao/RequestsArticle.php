@@ -10,7 +10,7 @@ class RequestsArticle
 {
     private $pdo;
 
-    //Connexion BD
+    //Constructeur pour connexion BD
     public function __construct()
     {
         $this->pdo = Database::getInstance()->getConnection();
