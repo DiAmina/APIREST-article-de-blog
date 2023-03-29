@@ -37,7 +37,7 @@ if ($http_method == 'POST'){
         $role = $user->getRole();
         $payload = array(
             'username' => $username,
-            'exp' => (time() + 600),
+            'exp' => (time() + 9999),
             'role' => $role
         );
         $jwt = generate_jwt($headers, $payload);

@@ -10,8 +10,6 @@ class User
     //créer un login, un password et un rôle
     public function __construct($login, $password, $role)
     {
-
-
         $this->login = $login;
         $this->password = $password;
         $this->role = $role;
