@@ -20,7 +20,11 @@ class RequestUsers{
             "login" => $login,
             "password" => $password
         ]);
-        return $query->fetch(PDO::FETCH_ASSOC);
+        $user = $query->fetch(PDO::FETCH_ASSOC);
+        if (!$user) {
+            return null;
+        }
+        return new User($user["login"], $user["password"], $user["role"]);
     }
 
     //Update un user
@@ -40,5 +44,7 @@ class RequestUsers{
             "password" => $password
         ]);
     }
+
+
 
 }

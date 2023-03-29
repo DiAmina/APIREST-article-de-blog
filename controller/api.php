@@ -24,12 +24,13 @@ case "GET":
     $bearer_token = get_bearer_token();
     if (is_jwt_valid($bearer_token)) {
         $payload = get_jwt_payload($bearer_token);
+        var_dump($payload);
         $role = $payload->role;
-        if ($role == 'moderator') {
-            // Récupération des critères de recherche envoyés par le Client
+        if (isset($_GET['id'])) {
             $matchingData = null;
-            if (isset($_GET['id'])) {
-                $matchingData = $requestArticle->getArticleId($_GET['id']);
+            // Récupération des critères de recherche envoyés par le Client
+            $matchingData = $requestArticle->getArticleId($_GET['id']);
+            if ($role == 'moderator') {
                 //revoie les données du client et le nombre de like et dislike
                 $matchingData['likes'] = $requestArticle->getLikes($_GET['id']);
                 $matchingData['dislikes'] = $requestArticle->getDislikes($_GET['id']);

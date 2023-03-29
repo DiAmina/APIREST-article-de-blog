@@ -9,6 +9,7 @@ require_once (__DIR__ . "/../libs/jwt_utils.php");
 
 use model\dao\RequestUsers;
 use model\dao\Database;
+use model\User;
 
 
 
@@ -28,9 +29,16 @@ if ($http_method == 'POST'){
             'alg' => 'HS256'
         );
 
+
+        $login = $data['username'];
+        $password = $pass;
+        $requestUsers = new RequestUsers();
+        $user = $requestUsers->getUser($login, $password);
+        $role = $user->getRole();
         $payload = array(
             'username' => $username,
-            'exp' => (time() + 600)
+            'exp' => (time() + 600),
+            'role' => $role
         );
         $jwt = generate_jwt($headers, $payload);
         deliverResponse(200, "Vous êtes connecté en tant que $username", $jwt);
