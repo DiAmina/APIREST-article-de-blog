@@ -32,8 +32,8 @@ case "GET":
             $matchingData = $requestArticle->getArticleId($_GET['id']);
             if ($role == 'moderator') {
                 //revoie les données du client et le nombre de like et dislike
-                $matchingData['likes'] = $requestArticle->getLikes($_GET['id']);
-                $matchingData['dislikes'] = $requestArticle->getDislikes($_GET['id']);
+                $matchingData ['likes'] = $requestArticle->getLikes($_GET['id']);
+                $matchingData ['dislike'] = $requestArticle->getDislikes($_GET['id']);
                 deliverResponse(200, "Article", $matchingData);
             }
         } else {
@@ -52,10 +52,12 @@ case "GET":
         $role = $payload->role;
         if ($role == "publisher") {
             $auteur = $payload->username;
-            $contenu = $_POST['contenu'];
+            $data = json_decode(file_get_contents('php://input'), true);
+            $contenu = $data['contenu'];
+            //$data ['contenu'] = $contenu;
             $datePub = date("Y-m-d H:i:s");
             $requestArticle->postArticle($auteur, $contenu, $datePub);
-            deliverResponse(200, "Article mis à jour", null);
+            deliverResponse(200, "Article mis à jour", $data);
         } else {
             deliverResponse(401, "Vous n'avez pas le droit d'ajouter un article", null);
         }
