@@ -24,7 +24,7 @@ case "GET":
     $bearer_token = get_bearer_token();
     if (is_jwt_valid($bearer_token)) {
         $payload = get_jwt_payload($bearer_token);
-        var_dump($payload);
+        //var_dump($payload);
         $role = $payload->role;
         if (isset($_GET['id'])) {
             $matchingData = null;
@@ -54,7 +54,6 @@ case "GET":
             $auteur = $payload->username;
             $data = json_decode(file_get_contents('php://input'), true);
             $contenu = $data['contenu'];
-            //$data ['contenu'] = $contenu;
             $datePub = date("Y-m-d H:i:s");
             $requestArticle->postArticle($auteur, $contenu, $datePub);
             deliverResponse(200, "Article mis à jour", $data);
@@ -74,6 +73,8 @@ case "GET":
             $role = $payload->role;
             if ($role == "publisher") {
                 $auteur = $payload->username;
+                $data = json_decode(file_get_contents('php://input'), true);
+                $contenu = $data['contenu'];
                 $id = $_GET['id'];
                 $article = $requestArticle->getArticles();
                 if ($article) {
@@ -100,13 +101,16 @@ case "GET":
         $bearer_token = get_bearer_token();
         if (is_jwt_valid($bearer_token)) {
             $payload = get_jwt_payload($bearer_token);
+            var_dump($payload);
             $role = $payload->role;
             if ($role == "publisher") {
                 $auteur = $payload->username;
                 $id = $_GET['id'];
-                $contenu = $_POST['contenu'];
-                $requestArticle->putArticle($id, $contenu);
-                deliverResponse(200, "Article modifié", null);
+                $data = json_decode(file_get_contents('php://input'), true);
+                $contenu = $data['contenu'];
+                $datePub = date("Y-m-d H:i:s");
+                $requestArticle->putArticle($id);
+                deliverResponse(200, "Article modifié", $data);
             } else {
                 deliverResponse(401, "Vous n'avez pas le droit de modifier un article", null);
             }

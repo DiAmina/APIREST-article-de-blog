@@ -83,12 +83,11 @@ class RequestsArticle
     }
 
     // Méthode pour mettre à jour un article
-    function  putArticle($id, $contenu): bool
+    function  putArticle($id): bool
     {
-        $query = $this->pdo->prepare("UPDATE article SET contenu = :contenu WHERE id = :id");
+        $query = $this->pdo->prepare("UPDATE article SET contenu = :contenu WHERE id = :id AND auteur = :auteur");
         return $query->execute([
-            "id" => $id,
-            "contenu" => $contenu
+            "id" => $id
         ]);
     }
 
