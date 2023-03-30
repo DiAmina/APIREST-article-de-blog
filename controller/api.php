@@ -95,25 +95,25 @@ case "GET":
         }
     break;
     
-// Cas de la méthode PUT
-// case "PUT":
-//     $bearer_token = get_bearer_token();
-//     if (is_jwt_valid($bearer_token)) {
-//         $payload = get_jwt_payload($bearer_token);
-//         $role = $payload->role;
-//         if ($role == "publisher") {
-//             $auteur = $payload->username;
-//             $id = $_GET['id'];
-//             $contenu = $_POST['contenu'];
-//             $requestArticle->putArticle($id, $contenu);
-//             deliverResponse(200, "Article modifié", null);
-//         } else {
-//             deliverResponse(401, "Vous n'avez pas le droit de modifier un article", null);
-//         }
-//     } else {
-//         deliverResponse(401, "Votre token a expiré", null);
-//     }
-// break;
+    //Cas de la méthode PUT
+    case "PUT":
+        $bearer_token = get_bearer_token();
+        if (is_jwt_valid($bearer_token)) {
+            $payload = get_jwt_payload($bearer_token);
+            $role = $payload->role;
+            if ($role == "publisher") {
+                $auteur = $payload->username;
+                $id = $_GET['id'];
+                $contenu = $_POST['contenu'];
+                $requestArticle->putArticle($id, $contenu);
+                deliverResponse(200, "Article modifié", null);
+            } else {
+                deliverResponse(401, "Vous n'avez pas le droit de modifier un article", null);
+            }
+        } else {
+            deliverResponse(401, "Votre token a expiré", null);
+        }
+    break;
 
 //Cas de la méthode DELETE
 case "DELETE":
