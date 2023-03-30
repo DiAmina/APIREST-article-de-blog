@@ -17,3 +17,10 @@ Publisher :
 
     > Viallet
     > pwd ('viallet456') : 39497ad59a90a0bb39d239a25f47a090d019d9acde8633c35fe20cd69db0bdc9
+
+    > Patrick
+    >pwd('patoche') : 4c2d1ccd957c4b2d4d38a636583e9ab1fa37f0866e4046c1145098aead453b2e
+
+    > Johnny
+    > pwd ('hallyday'): 4c2d1ccd957c4b2d4d38a636583e9ab1fa37f0866e4046c1145098aead453b2e
+
