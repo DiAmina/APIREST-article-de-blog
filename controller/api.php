@@ -123,9 +123,10 @@ case "DELETE":
         $role = $payload->role;
         if ($role == "publisher") {
             $id = $_GET['id'];
-            $requestArticle->deleteLike($id);
-            $requestArticle->deletedislike($id);
-            $requestArticle->deleteArticle($id);
+            $auteur = $_GET['auteur'];
+            $requestArticle->deleteLike($id,$auteur);
+            $requestArticle->deletedislike($id,$auteur);
+            $requestArticle->deleteArticle($id,$auteur);
             deliverResponse(200, "Article supprimé", null);
         } else {
             deliverResponse(401, "Vous n'avez pas le droit de supprimer un article", null);
