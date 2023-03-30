@@ -75,7 +75,7 @@ case "GET":
             if ($role == "publisher") {
                 $auteur = $payload->username;
                 $id = $_GET['id'];
-                $article = $requestArticle->getArticles($id);
+                $article = $requestArticle->getArticles();
                 if ($article) {
                     $contenu = $_POST['contenu'];
                     if (!empty($contenu)) {
