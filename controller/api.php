@@ -140,12 +140,32 @@ case "DELETE":
         $role = $payload->role;
         if ($role == "publisher") {
             $id = $_GET['id'];
-            $auteur = $_GET['auteur'];
-            $requestArticle->deleteLike($id,$auteur);
-            $requestArticle->deletedislike($id,$auteur);
-            $requestArticle->deleteArticle($id,$auteur);
-            deliverResponse(200, "Article supprimé", null);
+            if ($auteur =! $_GET['auteur']){
+                if (isset($data['like'])) {
+                    $dataMod['like'] = $data['like'];
+                }
+
+                // On vérifie si c'est le dislike que l'on veut modifier etc...
+                if (isset($data['likes'])) {
+                    $dataMod['dislikes'] = $data['dislikes'];
+                }
+            }
+
+            // On vérifie si c'est le like que l'on veut modifier
+
+            $requestArticle->deleteLike($id);
+            $requestArticle->deletedislike($id);
+            if ( $requestArticle->deleteLike($id)){
+                deliverResponse(200, "like supprimé", $data);
         } else {
+                $requestArticle->deletedislike($id);
+                deliverResponse(400, "Le like n'a pas ete supprime/trouvé !", null);
+            }
+            if ( $requestArticle->deletedislike($id)){
+                deliverResponse(200, "dislike supprimé", $data);
+        } else {
+                deliverResponse(400, "Le dislike n'a pas ete supprime/trouvé !", null);
+            }
             deliverResponse(401, "Vous n'avez pas le droit de supprimer un article", null);
         }
     } else {

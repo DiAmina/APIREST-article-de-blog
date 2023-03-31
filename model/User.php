@@ -60,5 +60,9 @@ class User
     {
         return $this->role == "anonymous";
     }
+    public function isOwner($login):bool
+    {
+        return $this->login == $login;
+    }
 
 }

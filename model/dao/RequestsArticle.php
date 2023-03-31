@@ -100,22 +100,21 @@ class RequestsArticle
     }
 
     //SUpprimer un like
-    function deleteLike($id,$username): bool
+    function deleteLike(string $id): bool
     {
-        $query = $this->pdo->prepare("DELETE FROM likes WHERE id = :id AND username = :username");
+        $query = $this->pdo->prepare("DELETE FROM likes WHERE id = :id AND username = :auteur");
         return $query->execute([
             "id" => $id,
-            "username" => $username
         ]);
     }
 
     //Supprimer un dislike
-    function deletedislike($id,$username): bool
+    function deletedislike($id): bool
     {
         $query = $this->pdo->prepare("DELETE FROM dislikes WHERE id = :id AND username = :auteur");
         return $query->execute([
             "id" => $id,
-            "username" => $username
+
         ]);
     }
 
