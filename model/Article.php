@@ -20,27 +20,27 @@ class Article
         $this->login = $login;
     }
 
-    //Récupère l'id
+    //Retourne l'id
     public function getId(){
         return $this->id;
     }
 
-    //Récupère l'auteur
+    //Retourne l'auteur
     public function getAuteur(){
         return $this->auteur;
     }
 
-    //récupère la date de publication
+    //Retourne la date de publication
     public function getDatePub(){
         return $this->datePub;
     }
 
-    //récupère le contenu
+    //Retourne le contenu
     public function getContenu(){
         return $this->contenu;
     }
 
-    //récupère le login
+    //Retourne le login
     public function getLogin(){
         return $this->login;
     }

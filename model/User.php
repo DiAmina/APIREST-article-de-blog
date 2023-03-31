@@ -15,19 +15,19 @@ class User
         $this->role = $role;
     }
 
-    //Récupère le login
+    //Retourne le login
     public function getLogin()
     {
         return $this->login;
     }
 
-    //Récupère le password
+    //Retourne le password
     public function getPassword()
     {
         return $this->password;
     }
 
-    //Récupère le rôle
+    //Retourne le rôle
     public function getRole()
     {
         return $this->role;
@@ -45,17 +45,17 @@ class User
         return new User($user["login"], $user["password"], $user["role"]);
     }
 
-    //Affecte le rôle moderator
+    //Vérifie si le rôle est moderator
     public function isModerator():bool{
         return $this->role == "moderator";
     }
 
-    //Affecte le rôle publisher
+    //Vérifie si le rôle est publisher
     public function isPublisher():bool{
         return $this->role == "publisher";
     }
 
-    //Affecte le rôle anonymous
+    //Vérifie si le rôle est anonymous
     public function isAnonymous():bool
     {
         return $this->role == "anonymous";
