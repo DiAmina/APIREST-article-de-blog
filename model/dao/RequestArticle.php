@@ -6,7 +6,7 @@ require_once (__DIR__ . "/Database.php");
 use model\dao\Database;
 use PDO;
 
-class RequestsArticle
+class RequestArticle
 {
     private $pdo;
 
