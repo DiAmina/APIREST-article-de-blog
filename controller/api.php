@@ -8,13 +8,13 @@ require_once (__DIR__ . "/../model/User.php");
 require_once (__DIR__ . "/../model/Article.php");
 require_once (__DIR__ . "/../libs/jwt_utils.php");
 use model\dao\RequestUsers;
-use model\dao\RequestArticle;
+use model\dao\RequestsArticle;
 
 
 
 // Identification du type de méthode HTTP envoyée par le client
 $http_method = $_SERVER['REQUEST_METHOD'];
-$requestArticle = new RequestArticle();
+$requestArticle = new RequestsArticle();
 $requestUser = new RequestUsers();
 
 
