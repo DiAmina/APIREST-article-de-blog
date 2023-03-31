@@ -83,12 +83,20 @@ class RequestsArticle
     }
 
     // Méthode pour mettre à jour un article
-    function  putArticle($id): bool
+    function  putArticle(string $id, array $data): bool
     {
-        $query = $this->pdo->prepare("UPDATE article SET contenu = :contenu WHERE id = :id AND auteur = :auteur");
-        return $query->execute([
-            "id" => $id
-        ]);
+        // Requête SQL construite dynamiquement
+        $sql = "UPDATE article SET ";
+        $params = [];
+        foreach ($data as $key => $value) {
+            $sql .= "$key = :$key, ";
+            $params[$key] = $value;
+        }
+        $params["id"] = $id;
+        $sql = substr($sql, 0, -2);
+        $sql .= " WHERE id = :id";
+        $query = $this->pdo->prepare($sql);
+        return $query->execute($params);
     }
 
     //SUpprimer un like

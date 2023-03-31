@@ -11,7 +11,6 @@ use model\dao\RequestUsers;
 use model\dao\RequestsArticle;
 
 
-
 // Identification du type de méthode HTTP envoyée par le client
 $http_method = $_SERVER['REQUEST_METHOD'];
 $requestArticle = new RequestsArticle();
@@ -56,7 +55,7 @@ case "GET":
             $contenu = $data['contenu'];
             $datePub = date("Y-m-d H:i:s");
             $requestArticle->postArticle($auteur, $contenu, $datePub);
-            deliverResponse(200, "Article mis à jour", $data);
+            deliverResponse(200, "Article inseré", $data);
         } else {
             deliverResponse(401, "Vous n'avez pas le droit d'ajouter un article", null);
         }
@@ -101,16 +100,30 @@ case "GET":
         $bearer_token = get_bearer_token();
         if (is_jwt_valid($bearer_token)) {
             $payload = get_jwt_payload($bearer_token);
-            var_dump($payload);
+            // var_dump($payload);
             $role = $payload->role;
             if ($role == "publisher") {
                 $auteur = $payload->username;
                 $id = $_GET['id'];
                 $data = json_decode(file_get_contents('php://input'), true);
-                $contenu = $data['contenu'];
-                $datePub = date("Y-m-d H:i:s");
-                $requestArticle->putArticle($id);
-                deliverResponse(200, "Article modifié", $data);
+
+                // Tableau contenant les données à modifier
+                $dataModified = array();
+
+                // On vérifie si c'est le contenu que l'on veut modifier
+                if (isset($data['contenu'])) {
+                    $dataModified['contenu'] = $data['contenu'];
+                }
+
+                // On vérifie si c'est la date de publication que l'on veut modifier etc...
+                if (isset($data['datePub'])) {
+                    $dataModified['datePub'] = $data['datePub'];
+                }
+                if ( $requestArticle->putArticle($id, $dataModified)){
+                    deliverResponse(200, "Article modifié", $data);
+                } else {
+                    deliverResponse(400, "L'article n'a pas ete modifie !", null);
+                }
             } else {
                 deliverResponse(401, "Vous n'avez pas le droit de modifier un article", null);
             }
