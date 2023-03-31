@@ -29,7 +29,6 @@ if ($http_method == 'POST'){
             'alg' => 'HS256'
         );
 
-
         $login = $data['username'];
         $password = $pass;
         $requestUsers = new RequestUsers();
@@ -37,7 +36,7 @@ if ($http_method == 'POST'){
         $role = $user->getRole();
         $payload = array(
             'username' => $username,
-            'exp' => (time() + 9999),
+            'exp' => (time() + 600),
             'role' => $role
         );
         $jwt = generate_jwt($headers, $payload);
